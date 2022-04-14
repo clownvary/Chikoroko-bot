@@ -6,7 +6,7 @@ A discord bot for watching [Chikoroko](https://expo.chikoroko.art/) new drop.
 
 ## Prerequisites
 
-- discord account, regist [here](htps://discord.com) 
+- discord account, regist [here](https://discord.com)
 
 - create a application bot, [here](https://discord.com/developers/applications) 
 
