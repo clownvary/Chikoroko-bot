@@ -1,11 +1,13 @@
 /* eslint-disable no-fallthrough */
 const { Client, Collection, Intents } = require("discord.js");
+
 const {
   getCommandFiles,
   getToken,
   getDb
 } = require("./util");
 const {  COMMANDS_DIR_PATH } = require("./config");
+require('./keep-alive');
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
@@ -50,11 +52,4 @@ client.on("interactionCreate", async (interaction) => {
 // // Login to Discord with your client's token
 client.login(TOKEN);
 
-// 24/7 run this process
-// const http = require('http');
-// http.createServer((req, res) => {
-//   res.write("Hello, i am alive!");
-//   res.end();
-// }).listen(8080, () => {
-//   console.log(`app listening at http://localhost:8080`);
-// });
+
