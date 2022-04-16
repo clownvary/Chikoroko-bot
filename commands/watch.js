@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { getNewDrop, getLastDrop, setLastDrop } = require("../util");
+const { getNewDrop, getDb } = require("../util");
 const { WATCH_TIMEOUT } = require("../config");
 
 module.exports = {
@@ -7,21 +7,34 @@ module.exports = {
     .setName("watch")
     .setDescription("Start watching site changes"),
   async execute(interaction) {
-    let { watcher: { interval = null, count = 0 } = {} } = process;
+    let interval = null;
+    let count = 0;
+    const db = getDb();
+    const enableWatch = db.getData('/enableWatch');
     const watchDrop = async () => {
+      db.reload();
+      const lastDrop = db.getData('/lastDrop');
+      const currentEnableWatch = db.getData('/enableWatch');
       const { user, channel, client } = interaction;
-      const { title, link } = await getNewDrop();
-      const lastDrop = getLastDrop();
-      const hasNewDrop = lastDrop !== title;
-      if (hasNewDrop) {
-        channel.send(`${user} new drop come out \n ${title} \n ${link}`);
-        setLastDrop(title);
+      if (currentEnableWatch) {
+        const { title=' ', link } = await getNewDrop();
+        const hasNewDrop = lastDrop !== title;
+        if (hasNewDrop) {
+          channel.send(`${user} new drop come out \n ${title} \n ${link}`);
+          db.push('/lastDrop', title);
+        }
+        client.user.setActivity(`| ${count++}`, { type: "WATCHING" });
+      } else {
+        clearInterval(interval);
+        interval = null;
+        count = 0;
+        client.user.setActivity('UNWATCHING');
       }
-      client.user.setActivity(`| ${count++}`, { type: "WATCHING" });
     };
-    if (interval) {
+    if (enableWatch) {
       await interaction.reply("still have a watcher running...");
     } else {
+      db.push('/enableWatch', true);
       interval = setInterval(watchDrop, WATCH_TIMEOUT);
       await interaction.reply("run new watcher...");
     }

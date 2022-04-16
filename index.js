@@ -2,14 +2,16 @@
 const { Client, Collection, Intents } = require("discord.js");
 const {
   getCommandFiles,
+  getToken,
+  getDb
 } = require("./util");
 const {  COMMANDS_DIR_PATH } = require("./config");
-const token = process.env["token"];
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
 client.commands = new Collection();
+const TOKEN = getToken();
 const commandFiles = getCommandFiles();
 
 for (const file of commandFiles) {
@@ -22,6 +24,8 @@ for (const file of commandFiles) {
 
 // When the client is ready, run this code (only once)
 client.once("ready", () => {
+  const db = getDb();
+  db.push('/enableWatch', false);
   console.log("Chikoroko is online!");
 });
 
@@ -44,7 +48,7 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 // // Login to Discord with your client's token
-client.login(token);
+client.login(TOKEN);
 
 // 24/7 run this process
 // const http = require('http');
