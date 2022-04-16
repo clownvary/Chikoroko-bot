@@ -10,8 +10,6 @@ const { TARGET_URL, COMMANDS_DIR_PATH } = require("./config");
 module.exports = {
   getNewDrop: async () => {
     const { data: html } = await axios.get(TARGET_URL);
-
-    console.log('htmls', html);
     const $ = cheerio.load(html);
     const activeDrop = $(".swiper-slide").first();
     const dropPath = activeDrop.find("> a").attr("href");
