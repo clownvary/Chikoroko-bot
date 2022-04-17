@@ -1,8 +1,8 @@
-const { getDb, getNewDrop, send } = require('./util');
+const { getDb, getNewDrop, send, resetWatcherConfig } = require('./util');
 const { WATCH_TIMEOUT } = require("./config");
 
 module.exports = async (client, interaction = null) => {
-    let { interval, count, enableWatch } = client
+    let { interval, enableWatch } = client
     const db = getDb();
     const testDrop = async () => {
         db.reload();
@@ -16,10 +16,10 @@ module.exports = async (client, interaction = null) => {
                 await send(client, interaction, `@everyone new drop come out \n ${title} \n ${link}`);
                 db.push('/lastDrop', title);
             }
-            client.user.setActivity(`| ${count++}`, { type: "WATCHING" });
+            client.user.setActivity(`| ${client.count++}`, { type: "WATCHING" });
         } else {
             clearInterval(interval);
-            count = 0;
+            resetWatcherConfig(client);
             client.user.setActivity('UNWATCHING');
         }
     };

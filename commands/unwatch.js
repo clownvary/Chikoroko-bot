@@ -9,9 +9,10 @@ module.exports = {
     const { enableWatch } = client;
     if (enableWatch) {
       resetWatcherConfig(client);
-      await send(client, interaction, "watcher removed...")
+      await send(client, interaction, "watcher removed...");
+      client.user.setActivity('UNWATCHING');
     } else {
-      await send(client, interaction, "no watcher to remove...")
+      await send(client, interaction, "no watcher to remove...");
     }
   },
 };
