@@ -32,7 +32,13 @@ A discord bot for watching [Chikoroko](https://expo.chikoroko.art/) new drop.
 
 3. Deploy commands, run cmmand `npm run deploy_command`
 
+4. Run wathcer
+
+  run cmd `npm run start`, will run a watcher
+
 4. Using commands
+
+  You can use commands to restart or cancel a watcher as below:
 
   Type `/watch` in your channel(include your bot), it will start watching Chikoroko new drop, and will push notification when new drop come out.
 

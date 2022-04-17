@@ -5,7 +5,7 @@ const axios = require("axios").default;
 const cheerio = require("cheerio");
 const { JsonDB } = require("node-json-db");
 const { Config } = require("node-json-db/dist/lib/JsonDBConfig");
-const { TARGET_URL, COMMANDS_DIR_PATH } = require("./config");
+const { TARGET_URL, COMMANDS_DIR_PATH, CHANNEL_ID } = require("./config");
 
 module.exports = {
   getNewDrop: async () => {
@@ -30,5 +30,18 @@ module.exports = {
   },
   getToken: () => {
     return process.env['TOKEN'];
+  },
+  resetWatcherConfig: (client) => {
+    client.enableWatch = false;
+    client.interval = null;
+    client.count = 0;
+  },
+  send: async (client, interaction, message) => {
+    if (interaction) {
+      await interaction.reply(message);
+    }
+    else {
+      await client.channels.cache.get(CHANNEL_ID).send(message);
+    }
   }
 };

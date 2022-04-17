@@ -1,10 +1,10 @@
 /* eslint-disable no-fallthrough */
 const { Client, Collection, Intents } = require("discord.js");
-
+const startWatch = require('./startWatch');
 const {
   getCommandFiles,
   getToken,
-  getDb
+  resetWatcherConfig
 } = require("./util");
 const {  COMMANDS_DIR_PATH } = require("./config");
 require('./keep-alive');
@@ -12,7 +12,10 @@ const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 
+// init watcher config
 client.commands = new Collection();
+resetWatcherConfig(client);
+
 const TOKEN = getToken();
 const commandFiles = getCommandFiles();
 
@@ -25,9 +28,8 @@ for (const file of commandFiles) {
 
 
 // When the client is ready, run this code (only once)
-client.once("ready", () => {
-  const db = getDb();
-  db.push('/enableWatch', false);
+client.once("ready", async () => {
+  await startWatch(client);
   console.log("Chikoroko is online!");
 });
 
@@ -39,7 +41,7 @@ client.on("interactionCreate", async (interaction) => {
   if (!command) return;
 
   try {
-    await command.execute(interaction);
+    await command.execute(client,interaction);
   } catch (error) {
     console.error(error);
     await interaction.reply({
