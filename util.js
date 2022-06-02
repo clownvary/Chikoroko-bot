@@ -10,8 +10,6 @@ const {
   createAudioResource,
   joinVoiceChannel,
   NoSubscriberBehavior,
-  VoiceConnectionStatus,
-  AudioPlayerStatus,
 } = require('@discordjs/voice');
 const { TARGET_URL, COMMANDS_DIR_PATH, CHANNEL_ID, GUILD_ID, VOICE_CHANNEL_ID, ALERT_PATH } = require("./config");
 
@@ -86,7 +84,7 @@ module.exports = {
         // Unsubscribe after 5 seconds (stop playing audio on the voice connection)
         setTimeout(() => {
             subscription.unsubscribe();
-        }, 6000);
+        }, 10000);
     }
   }
 };

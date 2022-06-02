@@ -8,8 +8,9 @@ const {
 } = require("./util");
 const {  COMMANDS_DIR_PATH } = require("./config");
 require('./keep-alive');
+
 const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES,Intents.FLAGS.GUILD_VOICE_STATES],
+  intents: [Intents.FLAGS.GUILDS,Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES],
 });
 
 // init watcher config
