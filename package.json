@@ -18,14 +18,17 @@
   "dependencies": {
     "@discordjs/builders": "^0.12.0",
     "@discordjs/rest": "^0.3.0",
+    "@discordjs/opus": "^0.5.3",
+    "@discordjs/voice": "^0.9.0",
+    "ffmpeg-static": "^4.4.1",
+    "libsodium-wrappers": "^0.7.10",
     "axios": "^0.26.1",
     "cheerio": "^1.0.0-rc.10",
     "discord-api-types": "^0.31.1",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
-    "node": "^17.7.2",
     "node-json-db": "^1.5.0",
-    "npm": "latest"
+    "node": "^17.7.2"
   },
   "devDependencies": {
     "eslint": "^8.13.0",

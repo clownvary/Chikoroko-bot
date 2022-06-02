@@ -10,7 +10,7 @@ A discord bot for watching [Chikoroko](https://expo.chikoroko.art/) new drop.
 
 - create a application bot, [here](https://discord.com/developers/applications) 
 
-- get a bot token from previos step, and add that bot in your server
+- get a bot token/guild_id/cliend_id from previos step, and add that bot in your server
 
 - optional: ensure your network can access all we used site, or you need a vpn.
   
@@ -28,11 +28,21 @@ A discord bot for watching [Chikoroko](https://expo.chikoroko.art/) new drop.
 
     > In generally, you don't need to change anything, unless you know what it is.
 
-2. update your discord bot token in `key.json`
+2. Update your discord bot token in `.env`
 
-3. run cmmand `npm run start`
+3. Deploy commands, run cmmand `npm run deploy_command`
 
-4. Type `/watch` in your channel(include your bot), it will start watching Chikoroko new drop, and will push notification when new drop come out.
+4. Run wathcer
+
+  run cmd `npm run start`, will run a watcher
+
+4. Using commands
+
+  You can use commands to restart or cancel a watcher as below:
+
+  Type `/watch` in your channel(include your bot), it will start watching Chikoroko new drop, and will push notification when new drop come out.
+
+  Type `/unwatch` to cancel watching
 
 5. optional: running 24/7
 
