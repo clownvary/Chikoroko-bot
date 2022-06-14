@@ -6,16 +6,16 @@ module.exports = async (client, interaction = null) => {
     const db = getDb();
     const testDrop = async () => {
         db.reload();
-        const lastDrop = db.getData('/lastDrop');
+        const excludeDrops = db.getData('/excludeDrops');
         const { enableWatch: currentEnableWatch } = client;
 
         if (currentEnableWatch) {
             const { title = ' ', link } = await getNewDrop();
-            const hasNewDrop = lastDrop !== title &&lastDrop!==EXCLUDE_DROP;
+            const hasNewDrop = !excludeDrops.includes(title);
             if (hasNewDrop) {
                 playAlertSound(client);
                 await send(client, interaction, `@everyone new drop come out \n ${title} \n ${link}`);
-                db.push('/lastDrop', title);
+                db.push('/excludeDrops[]', title);
             }
             client.user.setActivity(`| ${client.count++}`, { type: "WATCHING" });
         } else {
