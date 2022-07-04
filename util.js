@@ -17,18 +17,32 @@ module.exports = {
   getNewDrop: async () => {
     let title = '';
     let dropPath = '';
+    const url = `${TARGET_URL}/catalog/catalog_paginator/`
     try {
-      const { data: html } = await axios.get(TARGET_URL);
+      const { data: html } = await axios.get(url, {
+        headers: {
+          cookie:
+            "_fbp=fb.1.1656926684834.2010604535; _gid=GA1.2.2079486437.1656926685; csrftoken=Mnnn3uYaRa9Tn0eM5asrCEdtpAehEd7fqUXbGYeVLYDIzy9d56HsZu1IEQVZB8NM; _ga_L6QZHBLTQQ=GS1.1.1656926684.1.1.1656927511.58; _ga=GA1.1.1534674939.1656926685",
+          "X-CSRFToken":
+            "sEOjqP3D51cTg3coREmApyLt9CkVTyCB6bo73jjoZPGIsB7PRABBMozIoS1DQti8",
+          "HX-Request": true,
+          "HX-Target": "souvenir-list",
+          "HX-Trigger": "souvenir-list",
+          Host: "expo.chikoroko.art",
+          Pragma: "no-cache",
+          Referer: "https://expo.chikoroko.art/catalog/",
+        },
+      });
       const $ = cheerio.load(html);
-      const activeDrop = $(".swiper-slide").first();
-      dropPath = activeDrop.find("> a").attr("href");
-      title = activeDrop.find(".info-content .h2").text();
+        const activeDrop = $(".souvenir-item").first();
+      title = activeDrop.find(".souvenir-item__wrapper .h2").text();
+      dropPath = title && title.toLowerCase().split(' ').join('-');
     } catch (e) {
       console.error(e);
     }
 
     return {
-      link: `${TARGET_URL}${dropPath}` || '',
+      link: `${TARGET_URL}/catalog/${dropPath}` || '',
       title,
     };
   },
